@@ -1,5 +1,5 @@
-# Bootcamp Projects
-We learn 10 sprints during 4 months program.
+# Bootcamp Projects Batch 06
+Learn 10 sprints during 4 months program.
 - Spreedsheets
 - SQL Database
 - R programming
