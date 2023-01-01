@@ -1,5 +1,5 @@
 # Bootcamp Projects Batch 06
-Learn 10 sprints during 4 months program.
+Learn 10 sprints during 4 months program with AdToy.
 - Spreedsheets
 - SQL Database
 - R programming
