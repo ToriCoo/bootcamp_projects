@@ -1,0 +1,97 @@
+choice <- c(0,2,5)
+results <- c("Rock", "Paper", "Scissors")
+
+win <- 0
+lose <- 0
+tie <- 0
+round <- 0
+
+#greeting
+
+print("Hello there!!")
+print("I'm Mr.JibJib")
+
+print("I like to play Rock-Paper-Scissors game")
+print("------------Let's start!!--------------")
+
+print("Pik up :  [0] Rock")
+print("          [2] Scissors")
+print("          [5] Paper")
+print("          [Q] Quit game")
+
+
+
+# battle
+
+repeat{
+  print("---------------------------------------")
+  print(paste("Round :", round + 1))
+ 
+  round <- round + 1
+  
+  player <- readLines("stdin", n=1)
+  bot <- sample(choice,1,FALSE) 
+  
+  if(player == 0){
+    print("You Choose : Rock")
+    }else if(player == 2){
+    print("You Choose : Scissors")
+    }else if(player == 5){
+    print("You Choose : Paper")
+    }else if(player == "q"){
+    print("Quit game")
+    break
+    }
+  
+  if(bot == 0){
+    print("JibJib Choose : Rock")
+    }else if(bot == 2){
+    print("JibJib Choose : Scissors")
+    }else if(bot == 5){
+    print("JibJib Choose : Paper")
+    }
+
+    
+  if(player == bot){
+    tie <- tie + 1
+    print("---------Tied----------")
+  }else if (player == 0 & bot == 2){
+    win <- win + 1
+    print("--------You win!-------")
+  }else if (player == 0 & bot == 5){
+    lose <- lose + 1
+    print("------JibJib win!------")
+  }else if (player == 2 & bot == 0){
+    lose <- lose + 1
+    print("------JibJib win!------")
+  }else if (player == 2 & bot == 5){
+    win <- win + 1
+    print("--------You win!-------")
+  }else if (player == 5 & bot == 0){
+    win <- win + 1
+    print("--------You win!-------")
+  }else if (player == 5 & bot == 2){
+    lose <- lose + 1
+    print("------JibJib win!------")
+  }else{
+    print("JibJib don't understand. Let's play again!")
+  }
+}
+
+#score
+print("-----------------------------------------")
+print("|                SCORE                   |")
+print("-----------------------------------------")
+print(paste("Your   score : ", win))
+print(paste("JibJib score : ", lose))
+  
+print("-----------------------------------------")
+your_score <- win
+bot_score <- lose
+  if(your_score > bot_score){
+    print("You won! ✧ ─=≡Σ((( つ•̀ω•́)")
+  }else if(your_score < bot_score){
+    print("JibJib won! ( ✧Д✧) OMG!!")
+  }else{
+print("We Tied  *:･ﾟ✧(ꈍᴗꈍ)✧･ﾟ:")
+  }
