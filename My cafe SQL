@@ -1,0 +1,174 @@
+--Branch
+create table branch(
+    branchID    int,
+    branchName  varchar
+);
+insert into branch values
+  (1, 'JJ Market'),
+  (2, 'BTS Siam')
+;
+
+--member
+create table member(
+  memberID    int,
+  memberName  varchar
+);
+insert into member values
+  (0, 'Not member'),
+  (1, 'Luffy'),
+  (2, 'Zoro'),
+  (3, 'Zanjj'),
+  (4, 'Nami'),
+  (5, 'Robin'),
+  (6, 'Chopper'),
+  (7, 'Franky'),
+  (8, 'Brook'),
+  (9, 'Shanks')
+;
+
+--menu
+create table menu(
+  menuID    int,
+  menuName  varchar,
+  prices    real
+);
+insert into menu values
+  (1, 'Milk tea', 25),
+  (2, 'Thai tea', 25),
+  (3, 'Green tea', 25),
+  (4, 'Coffee' , 30),
+  (5, 'Cocoa', 30),
+  (6, 'Cheese cake', 45),
+  (7, 'Blueberry pie', 50)
+;
+
+--services
+create table services(
+  serviceID  int,
+  service    varchar
+);
+insert into services values
+  (1, 'eat at cafe'),
+  (2, 'take away'),
+  (3, 'for delivery')
+;
+
+--staff
+create table staff(
+  staffID    int,
+  staffName  varchar
+);
+insert into staff values
+  (1, 'Harry'),
+  (2, 'Ron'),
+  (3, 'Hermione'),
+  (4, 'Dobby'),
+  (5, 'Hedwig')
+;
+
+----------------------------------
+
+--orders 2022
+CREATE table orders (
+  orderDate  DATE,
+  branchID   INT,
+  orderID    INT,
+  memberID   INT,
+  menuID     INT,
+  amount     INT,
+  serviceID  INT,
+  staffID    INT,
+primary key (orderID),
+foreign key (branchID) references branch(branchID),
+foreign key (memberID) references member(memberID),
+foreign key (menuID) references menu(menuID),
+foreign key (menuID) references menu(prices),
+foreign key (serviceID) references service(serviceID),
+foreign key (staffID) references staff(staffID)
+);
+
+insert into orders values
+  ('2022-01-01', 1, 1, 2, 2, 1, 1, 2),
+  ('2022-01-01', 1, 2, 2, 7, 1, 1, 2),
+  ('2022-01-01', 2, 3, 0, 1, 1, 2, 1),
+  ('2022-01-02', 1, 4, 4, 3, 3, 3, 5),
+  ('2022-01-02', 1, 5, 4, 5, 1, 3, 5),
+  ('2022-01-02', 1, 6, 4, 4, 2, 3, 5),
+  ('2022-01-02', 2, 7, 7, 1, 2, 2, 4),
+  ('2022-01-03', 1, 8, 0, 2, 1, 2, 3),
+  ('2022-01-03', 2, 9, 5, 1, 1, 1, 1),
+  ('2022-01-03', 1, 10, 2, 2, 3, 1, 1);
+
+
+
+.mode markdown
+.header on
+
+-- 1. preview orders
+
+select
+  odr.orderDate,
+  odr.orderID,
+  br.branchName AS branch,
+  mb.memberName,
+  mn.menuName AS menu,
+  mn.Prices,
+  amount,
+  sv.service,
+  st.staffName AS staff
+from orders AS odr
+  
+join branch br on odr.branchID = br.branchID
+join member mb on odr.memberID = mb.memberID
+join menu mn on odr.menuID = mn.menuID
+join services sv on odr.serviceID = sv.serviceID
+join staff st on odr.staffID = st.staffID
+;
+
+
+-- 2.Total Income @ 2022-01-01
+
+select
+  branch.branchName,
+  sum(prices*amount) AS Income
+from orders  
+join branch on orders.branchID = branch.branchID
+join menu on orders.menuID = menu.menuID
+where orderDate = '2022-01-01'
+group by branch.branchName
+;
+
+
+---3. select total income @ JJmarket branch
+
+select
+  menu.menuName,
+  menu.prices,
+  amount,
+  (menu.prices)*amount AS Income
+from orders
+join menu on orders.menuID = menu.menuID
+where branchID = 1
+group by menu.menuName
+order by income desc
+ ;
+
+
+--4. order of Nami 
+
+with sub AS (
+  select *
+  from orders
+where memberID = 4)
+  
+select
+  member.memberName,
+  orderDate,
+  branch.branchName,
+  menu.menuName,
+  amount
+from sub
+Join member on sub.memberID = member.memberID
+join branch on sub.branchID = branch.branchID
+Join menu on sub.menuID = menu.menuID
+;
